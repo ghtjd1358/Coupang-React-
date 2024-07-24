@@ -44,3 +44,14 @@
   background-size : cover;
   background-position : center;
 }
+
+// animations
+.start {
+  transform : scale(0);
+  /* background : #000; */
+}
+.end {
+  transform : scale(1);
+  transition : all 0.5s;
+  /* background : #000; */
+}
