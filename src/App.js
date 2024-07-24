@@ -8,6 +8,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Detail from './Detail';
 import About from './About';
 import axios from 'axios';
+import Cart from './Cart';
 
 
 
@@ -32,7 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home shoes={shoes} setShoes={setShoes} />} />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
-        <Route path="/cart" element={<div>장바구니 페이지</div>} />
+        <Route path="/cart" element={<Cart/>} />
         <Route path="*" element={<div>존재하지 않는 페이지</div>} />
 
         <Route path='/about' element = {<About/>}>
