@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import './App.css';
+import { addItem } from './store/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import styled from "styled-components";
 
@@ -12,6 +14,10 @@ import './App.css';
 // `;
 
 export default function Detail({ shoes }) {
+  const dispatch = useDispatch();
+  const user = useSelector((state=>state.user))
+  console.log('detail', user)
+
   // 상세페이지 및 데이터
   const { id } = useParams();
   const results = shoes.find((item) => item.id === parseInt(id));
@@ -85,7 +91,9 @@ export default function Detail({ shoes }) {
           {error && <p className="alert alert-danger">{error}</p>}
           <p>{results.content}</p>
           <p>{results.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger"
+    onClick={() => dispatch(addItem({ id: results.id, name: results.title, count: 1 }))}
+>주문하기</button>
           {/* <YellowBtn bg='black'>버튼</YellowBtn> */}
         </div>
       </div>
