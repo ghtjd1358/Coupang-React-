@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import './App.css';
 import { addItem } from './store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLike } from './hooks/like';
 
 // import styled from "styled-components";
 
@@ -18,17 +19,34 @@ export default function Detail({ shoes }) {
   const user = useSelector((state=>state.user))
   console.log('detail', user)
 
+  // 좋아요 기능
+ let [like ,addLike] = useLike()
+
+
+  
+
   // 상세페이지 및 데이터
   const { id } = useParams();
   const results = shoes.find((item) => item.id === parseInt(id));
   // console.log(results);
   // console.log('id : ', id);
-
   const [alert, setAlert] = useState(true);
   const [check, setCheck] = useState('');
   const [tab, setTab] = useState(0);
   const [ani, setAni] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(()=>{
+  let getData =  localStorage.getItem('watched');
+  console.log('watched', getData)
+  getData = JSON.parse(getData)
+  getData.push(results.id)
+
+  getData = new Set(getData);
+  getData = Array.from(getData)
+
+  localStorage.setItem('watched', JSON.stringify(getData))
+    },[results.id])
 
   // 초기 렌더링 시 타이머
   useEffect(() => {
@@ -65,6 +83,8 @@ export default function Detail({ shoes }) {
     return <div>상품을 찾을 수 없습니다.</div>;
   }
 
+ 
+
   return (
     <div className={`container start ${ani}`}>
       {alert ? (
@@ -82,6 +102,7 @@ export default function Detail({ shoes }) {
         </div>
         <div className="col-md-6">
           <h4 className="pt-5">상품명</h4>
+          <span onClick={addLike}>❤</span>{like} 
           <p>{results.title}</p>
           <input
             type="text"
